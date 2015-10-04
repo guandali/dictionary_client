@@ -37,7 +37,42 @@ public class CSdict
 		if (len <= 0) 
 		    break;
 		// Start processing the command here.
+		
+		// command for open
+		if(cmdString.equals("open")){
+			
+		}
+		// command for dict
+		else if(cmdString.equals("dict")){
+			
+		}
+		// command for set
+		else if(cmdString.equals("set")){
+			
+		}
+		// command for define
+		else if(cmdString.equals("define")){
+			
+		}
+		// command for match
+		else if(cmdString.equals("match")){
+			
+		}
+		// command for prefixmatch
+		else if(cmdString.equals("prefixmatch")){
+			
+		}
+		// command for close
+		else if(cmdString.equals("close")){
+			
+		}
+		// command for quit
+		else if(cmdString.equals("quit")){
+			
+		}
+		else{
 		System.out.println("900 Invalid command.");
+	    }
 	    }
 	} catch (IOException exception) {
 	    System.err.println("998 Input error while reading commands, terminating.");
