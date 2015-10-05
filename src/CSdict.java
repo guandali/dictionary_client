@@ -88,13 +88,8 @@ public class CSdict
 			
 		}
 		else if (split[0].matches("dict") || split[0].matches("DICT")){
-			try {
-				System.out.println("call showAllDict");
-				showAllDict();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			System.out.println("call showAllDict");
+			showAllDict();
 			return;
 			
 		}else if (split[0].matches("define") || split[0].matches("DEFINE")){
@@ -136,6 +131,14 @@ public class CSdict
 			System.out.println("903 Supplied command not expected at this time");
 			
 			
+		}else if (split[0].matches("quit") || split[0].matches("QUIT")){
+			
+			quitDict();
+			return;
+			
+			//System.out.println("903 Supplied command not expected at this time");
+			
+			
 		}
 		else{
 			System.out.println("900 Invalid command");
@@ -147,6 +150,26 @@ public class CSdict
 		
 		
 	}
+	private static void quitDict() {
+		// TODO Auto-generated method stub
+		try {
+			dict_client.close();
+			in_reader.close();
+			out_writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			System.out.println("no client connection");
+		} catch (NullPointerException e){
+			
+		}
+		quit_or_open_state = true; // change state only allow quit or open 
+		DEFAULT_PORT_NUMBER = 2638;// close connection and reset Default value 
+		System.out.println("Quitting the program");
+		System.exit(0);
+		
+	}
+
 	//prefix: match all prefix (word)
 	//MATCH database strategy word
 	private static void prefixmatchWord(String[] split) {
@@ -166,7 +189,7 @@ public class CSdict
     		System.out.println("MARK1");
 			System.out.println(input_);
 			System.out.println("MARK2");
-			if(input_.equals(".")){
+			if(in_reader.ready()){
 				System.out.println("*****************");
 				return;
 			}else if (input_.contains("550")){
@@ -219,7 +242,7 @@ public class CSdict
     		System.out.println("MARK1");
 			System.out.println(input_);
 			System.out.println("MARK2");
-			if(input_.contains("250")){
+			if(in_reader.ready()){
 				System.out.println("250 received");
 				return;
 			}else if (input_.contains("550")){
@@ -283,46 +306,29 @@ public class CSdict
 
 	// "dict" retrive and print the list of all the dictionaries the server supports 
 	// basically "show db" 
-	public static void showAllDict() throws IOException {
-		// TODO Auto-generated method stub
-		//String res_server;
-		if(true){
-			//out_writer.flush();
-			out_writer.print("show database");
-			//out_writer.flush();
-			
-				    System.out.println("*************1");
-				    try {
-				    	System.out.println("*************0");
-				    	while(in_reader.readLine() != null)
-				    	System.out.println(in_reader.readLine());
-//						if(in_reader.ready())
-//							System.out.println("*************2");
-						    //res_server = in_reader.readLine();
-//						    if(res_server.matches("250"))
-//						    	System.out.println("250");
-//						while((res_server = in_reader.readLine()) != null )
-//						{
-//							System.out.println("*************3");
-//							System.out.println(res_server);
-//							System.out.println("*************4");
-//							
-//						}
-						//System.out.print(in_reader.readLine());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				    System.out.println("*************");
-					
-			
-			  return;
-			
-			
-			
-			
+	public static void showAllDict()  {
+        String output_ = "show databases ";
+    	System.out.println(output_);
+    	out_writer.println(output_);
+    	out_writer.flush();
+    	try {
+    		while((in_reader.readLine()!=null)){
+    		String input_ = in_reader.readLine();
+    		System.out.println("MARK1");
+			System.out.println(input_);
+			System.out.println("MARK2");
+			if(input_.contains("250")){
+				System.out.println("250 received");
+				return;
+			}else if (input_.contains("550")){
+				//System.out.println("550 invalid database, use SHOW DB for list");
+			}
+    		}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		System.out.println("902 Invalid argument");
+    	return;
 		
 		
 	}
