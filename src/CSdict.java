@@ -165,6 +165,7 @@ public class CSdict
 		}
 		quit_or_open_state = true; // change state only allow quit or open 
 		DEFAULT_PORT_NUMBER = 2638;// close connection and reset Default value 
+		dict_setting_ = "* ";      // reset default dictinary to * (all)
 		System.out.println("Quitting the program");
 		System.exit(0);
 		
@@ -203,6 +204,7 @@ public class CSdict
     	return;
 		
 	}
+	
 
 	private static void setDict(String[] split) {
 		// TODO Auto-generated method stub
@@ -228,6 +230,10 @@ public class CSdict
 	// use for cmd "match WORD" means "match all exact WORD"
     private static void matchWord(String[] split) {
 		// TODO Auto-generated method stub
+    	if((dict_client==null)||(dict_client.isClosed())) {
+    		System.out.println("903 Supplied command not expected at this time");
+    		return; // if there is no connection yet or dict_client is closed 
+    	}
     	String theWord = split[1];
     	String match_ = "match ";
     	String match_database_ = match_.concat(dict_setting_);
@@ -245,8 +251,8 @@ public class CSdict
 			if(in_reader.ready()){
 				System.out.println("250 received");
 				return;
-			}else if (input_.contains("550")){
-				//System.out.println("550 invalid database, use SHOW DB for list");
+			}else if (input_.contains("501")){
+				System.out.println("550 invalid database, use SHOW DB for list");
 			}
     		}
 		} catch (IOException e) {
@@ -259,6 +265,7 @@ public class CSdict
 
 	private static void closeDict() {
 		// TODO Auto-generated method stub
+		if((dict_client.isClosed())) return; // if dict_client is already closed 
 		try {
 			dict_client.close();
 			in_reader.close();
@@ -273,7 +280,7 @@ public class CSdict
 		quit_or_open_state = true; // change state only allow quit or open 
 		DEFAULT_PORT_NUMBER = 2638;// close connection and reset Default value 
 	}
-
+    //This method is used to define a word form specified dictionary
 	private static void defineWord(String[] split) {
 		// TODO Auto-generated method stub
     	String theWord = " "+split[1];
@@ -358,7 +365,7 @@ public class CSdict
 				System.out.println("902 Invalid argument"); // incorrect host name 
 				System.out.println("Unknown Host");
 			} catch (IOException e1){
-				System.out.println("IOException?");
+				System.out.println("925 Control Connection I/O error, closing control of connection");
 			}
 		  if(in_reader != null){
 			  try {
