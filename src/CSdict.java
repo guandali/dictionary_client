@@ -85,7 +85,6 @@ public class CSdict {
 			return;
 
 		} else if (split[0].matches("dict") || split[0].matches("DICT")) {
-			System.out.println(split.length);
 			System.out.println("call showAllDict");
 			showAllDict();
 			return;
@@ -105,12 +104,12 @@ public class CSdict {
 
 		} else if (split[0].matches("prefixmatch")
 				|| split[0].matches("PREFIXMATCH")) {
-			if (split.length !=2) {
+			if (!quit_or_open_state) {
 				prefixmatchWord(split);
 				return;
 			}
 			System.out
-					.println("901 Incorrect number of arguments");
+					.println("903 Supplied command not expected at this time");
 
 		} else if (split[0].matches("match") || split[0].matches("MATCH")) {
 			if (!quit_or_open_state) {
@@ -325,11 +324,6 @@ public class CSdict {
 	// supports
 	// basically "show db"
 	public static void showAllDict() {
-		if ((dict_client == null) || (dict_client.isClosed())) {
-			System.out
-					.println("903 Supplied command not expected at this time");
-			return; // if there is no connection yet or dict_client is closed
-		}
 		String output_ = "show databases ";
 		System.out.println(output_);
 		out_writer.println(output_);
