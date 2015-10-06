@@ -59,10 +59,7 @@ public class CSdict {
 				if (len <= 0)
 					break;
 				// Start processing the command here.
-				System.out.println("Before cmdString is:" + cmdString);
-				System.out.println("Before len is:" + len);
 				actionPerformed(cmdString);// check cmdString
-				System.out.println("reach here 1 ");
 				// System.out.println("900 Invalid command.");
 			}
 		} catch (IOException exception) {
@@ -187,7 +184,7 @@ public class CSdict {
 		try {
 			String line;
 			while ((line = in_reader.readLine()) != null) {
-				System.out.println(pre+line);
+				System.out.println(pre + line);
 				if (line.startsWith("250")) {
 					System.out.println("*****************");
 					return;
@@ -246,7 +243,7 @@ public class CSdict {
 		try {
 			String line;
 			while ((line = in_reader.readLine()) != null) {
-				System.out.println(pre+line);
+				System.out.println(pre + line);
 				if (line.startsWith("250")) {
 					System.out.println("250 received");
 					return;
@@ -305,7 +302,7 @@ public class CSdict {
 			String line;
 			// input = in_reader.readline();
 			while ((line = in_reader.readLine()) != null) {
-				System.out.println(pre+line);
+				System.out.println(pre + line);
 
 				if (line.startsWith("250")) {
 					System.out.println("250 received");
@@ -333,15 +330,16 @@ public class CSdict {
 		out_writer.println(output_);
 		out_writer.flush();
 		try {
-			   String line;
-		       while  ((line = in_reader.readLine()) != null) {
+			String line;
+			while ((line = in_reader.readLine()) != null) {
 				System.out.println(line);
 				System.out.println("************************");
 				if (line.startsWith("250")) {
 					System.out.println("250 received");
 					return;
 				} else if (line.startsWith("550")) {
-					System.out.println("550 invalid database, use SHOW DB for list");
+					System.out
+							.println("550 invalid database, use SHOW DB for list");
 				}
 			}
 		} catch (IOException e) {
@@ -353,7 +351,11 @@ public class CSdict {
 	}
 
 	public static void buildConnection(String[] split) {
-		String input = null;
+		if (dict_client != null) {
+			System.out
+					.println("925 Control Connection I/O error, closing control of connection");
+			return;
+		}
 		int port_num = 0;
 		String server_name = split[1];
 		if (split.length == 4) {
@@ -379,23 +381,26 @@ public class CSdict {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
 			System.out.println("902 Invalid argument"); // incorrect host name
-			//System.out.println("Unknown Host");
+			// System.out.println("Unknown Host");
 		} catch (IOException e1) {
 			System.out
 					.println("925 Control Connection I/O error, closing control of connection");
+			DEFAULT_PORT_NUMBER = 2628;
 		}
 
-		if (in_reader != null) {
+
 			try {
 				String line;
-				while((line = in_reader.readLine())!= null)
-				System.out.println(pre+line);
+				line = in_reader.readLine();
+					System.out.println( line);
+				
+				return;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				System.out
 						.println("925 Control Connection I/O error, closing control of connection");
 			}
-		}
+		
 
 	}
 }
