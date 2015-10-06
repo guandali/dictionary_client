@@ -2,9 +2,12 @@
 A Simple Dictionary client
 Work in Group
 workload equal
-NAME:Guanda Li (Larry)
+NAME:Guanda Li (Larry) 
+     Yong Seok Chung
 StudentID:28905140
+          38777124
 csID: v7y9a
+      n4u8
 
 About use of Git:
  As Larry was facing problem with pushing to upstream, Larry was unable to 
