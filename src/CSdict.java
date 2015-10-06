@@ -193,16 +193,21 @@ public class CSdict
 		out_writer.println(prefix_cmd);
 		out_writer.flush();
 		try {
-			while((in_reader.readLine()!=null)){
-				String input_ = in_reader.readLine();
+			String line;
+			while((line = in_reader.readLine())!=null){
 				System.out.println("MARK1");
-				System.out.println(input_);
+				System.out.println(line);
 				System.out.println("MARK2");
-				if(in_reader.ready()){
+				if(line.startsWith("250")){
 					System.out.println("*****************");
 					return;
-				}else if (input_.contains("550")){
-					//System.out.println("550 invalid database, use SHOW DB for list");
+				}	else if (line.startsWith("552")){
+					System.out.println("***No matches found***");
+					return;
+				}
+				else if (line.startsWith("550")){
+					String err = "Wrong databases";
+					System.out.println("999 Processing error"+err);
 				}
 			}
 		} catch (IOException e) {
@@ -216,7 +221,11 @@ public class CSdict
 
 	private static void setDict(String[] split) {
 		// TODO Auto-generated method stub
-		if(!quit_or_open_state){
+		if((dict_client==null)||(dict_client.isClosed())) {
+			System.out.println("903 Supplied command not expected at this time");
+			return; // if there is no connection yet or dict_client is closed 
+		}
+		
 			if(split!=null){
 				dict_setting_ = split[1]+" ";
 				System.out.println("dictionary has been set to "+split[1]);
@@ -226,11 +235,7 @@ public class CSdict
 				return;
 
 			}
-		}else{
-			System.out.println("903 Supplied command not expected at this time");
-			return;
-
-		}
+		
 
 
 	}
@@ -251,17 +256,20 @@ public class CSdict
 		out_writer.println(match_cmd);
 		out_writer.flush();
 		try {
-			while((in_reader.readLine()!=null)){
-				String input_ = in_reader.readLine();
-				System.out.println("MARK1");
-				System.out.println(input_);
-				System.out.println("MARK2");
-				if(in_reader.ready()){
+			String line;
+			while((line = in_reader.readLine())!=null){
+				System.out.println(line);
+				if(line.startsWith("250")){
 					System.out.println("250 received");
 					return;
 				}
-				else if (input_.contains("501")){
-					System.out.println("550 invalid database, use SHOW DB for list");
+				else if (line.startsWith("552")){
+					System.out.println("***No matches found***");
+					return;
+				}
+				else if (line.startsWith("550")){
+					String err = "Wrong databases";
+					System.out.println("999 Processing error"+err);
 				}
 			}
 		} catch (IOException e) {
@@ -294,6 +302,10 @@ public class CSdict
 	//This method is used to define a word form specified dictionary
 	private static void defineWord(String[] split) {
 		// TODO Auto-generated method stub
+		if((dict_client==null)||(dict_client.isClosed())) {
+			System.out.println("903 Supplied command not expected at this time");
+			return; // if there is no connection yet or dict_client is closed 
+		}
 		String theWord = " "+split[1];
 		String define_ = "define ";
 		String define_database = define_.concat(dict_setting_);
