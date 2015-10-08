@@ -1,0 +1,107 @@
+Total before late penalty: [/97]
+
+
+
+NOTE: in the marking report something left blank (e.g.  [ /6]) typically means
+that you got full marks for that item. 
+
+
+CLIENT - FUNCTIONALITY: [/77]
+
+Working makefile produces the CSdict.jar file 		[/2]
+  
+open Command                                            [/6]
+    - Accepts server names in both IP and 
+       domain name format
+    - Proper port processing (uses port 2628
+       if no port # supplied otherwise uses provided port)
+    - If port number is not a number reports error 902
+
+dict command                                           [/4]
+     - sends show databases
+     - prints responses (but not the response codes)
+     
+
+quit command                                          [/4]
+     - closes open connection and exits
+     - If no open connection just exits
+
+close command
+      - closes the open control connection           [/4]
+      - in state were only quit or open command 
+        accepted 
+
+
+set command                                           [/4]
+    - sets and saves the dictionary (includes * and !)
+    - command checks database name is valid (bonus 2)
+    - resets dictionary to * on close or open
+
+define command                                           [/14]
+    - sends define dict word
+    - prints the dictionary 
+    - prints the definition starting on next line
+    - prints dictionary and definition when multiple dictionaries
+      searched (4)
+    - prints the no definition if no definiton returned
+    - prints list of matches if no defintion
+    - prints no matches if no matches found when doing a list of matches. 
+
+match command                                           [/6]
+    - sends match strategy (exact) word
+    - prints the dictionary followed by word on same line
+    - prints no matches if no matches found. 
+
+prefixmatch command                                     [/6]
+    - sends match strategy (default) word
+    - prints the dictionary followed by word on same line
+    - prints no matches if no matches found. 
+
+Parameters to user commands:    [ /5]
+    - properly handles multiple spaces or tabs    [/3]
+    - handles empty lines                         [/1] 
+    - handles comments                            [/1]
+
+
+-d option                                               [/6]
+   - properly prints --> for commands sent
+   - properly prints <-- for numeric status responses
+   - prints the responses in order as received
+
+
+Handling of errors:                           [/16]
+
+   - Deals with command line options (error 997, 998)
+   - deals with incorrect number of parameters for user 
+     entered command (error 901)
+   - commands not expected at this time (error 903)     [/6]
+   - dictionary server connection open fails (error 920)
+   - connection to dictionary server fails
+     once it is open (error 925)
+   - input error or end of stream while reading commands (error 998)
+     (no need to print an error when end of stream detected)
+
+---------------------
+PROGRAM STRUCTURE AND STYLE: [/20]
+
+   * Easy to read, appropriate layout, lines aren't too long, blank
+     lines delineating blocks of code functionality. (Basically 
+     does it look good and is easy to read.)  [/3]
+
+   * Blocks of code commented. Is it clear what functionality each
+     block of code is responsible for? Is it clear what variables are
+     being used for?   [/3]
+
+   * Code is decomposed into methods. There shouldn't be long 
+     blocks of code or repeated code. [/3]
+
+   * Reasonable choice of algorithms and problem solving approach 
+     (for example doesn't read all of the ouput from the server
+      before priting it.)              [/4]
+
+   * Regular use of git to push changes to stash. [/2]
+
+   * Marker's discretion   [/5]
+
+
+MARKER'S ADDITIONAL COMMENTS:
