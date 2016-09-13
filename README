@@ -1,6 +1,5 @@
 
-#Implemented a client application using Java based on [RFC 2229] (https://tools.ietf.org/html/rfc2229) 
-
+##Implemented a client application using Java based on [RFC 2229](https://tools.ietf.org/html/rfc2229) 
      1. Gained a good insight into socket programming as well as use of printWriter.
      2. Experienced how to read a protocols and implement application level protocols
      3. This assignment also improved our debugging skills.
